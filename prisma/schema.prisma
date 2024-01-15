@@ -14,12 +14,33 @@ model User {
   id   String @id @default(uuid())
   name String
   email String @unique
-  //checkins
+  password_hash String
+  created_at DateTime @default(now())
+
 
 	//pra criar relações entre as tables
   
   @@map("users")
 }
 //academias
+
+model CheckIn{
+  id   String @id @default(uuid())
+  created_at DateTime @default(now())
+  validated_at DateTime?
+
+  @@map("check_ins")
+}
+
+model Gym{
+  id   String @id @default(uuid())
+  title String
+  description String?//opcional
+  phone String?
+  latitude Decimal
+  longitude Decimal
+
+  @@map("gyms")
+}
 
 
