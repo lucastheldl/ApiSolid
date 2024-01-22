@@ -22,7 +22,7 @@ app.setErrorHandler((error, _, reply) => {
   if (env.NODE_ENV !== "production") {
     console.log(error);
   } else {
-    // TODO:
+    // TODO: In the future use a externall tool to handle logs
   }
 
   return reply.status(500).send({ message: "Internal server error" });
