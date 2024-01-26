@@ -1,4 +1,4 @@
-import { expect, it, describe } from "vitest";
+import { expect, it, describe, beforeEach } from "vitest";
 
 import { hash } from "bcryptjs";
 import { InMemoryUsersRepository } from "@repositories/in-memory/in-memory-users-repository";
@@ -7,12 +7,15 @@ import { InvalidCredentialsError } from "./errors/invalid-credentials-error";
 
 // unit test: should not reach other components of the application, should not touch a db
 // sut: System under test| design pattern
+let usersRepository: InMemoryUsersRepository;
+let sut: AuthenticateUseCase;
 describe("Authenticate use cases", () => {
+  beforeEach(() => {
+    usersRepository = new InMemoryUsersRepository();
+    sut = new AuthenticateUseCase(usersRepository);
+  });
+
   it("Should be able to authenticate", async () => {
-    const usersRepository = new InMemoryUsersRepository();
-
-    const sut = new AuthenticateUseCase(usersRepository);
-
     await usersRepository.create({
       name: "Lucas",
       password_hash: await hash("1234", 5),
@@ -28,10 +31,6 @@ describe("Authenticate use cases", () => {
   });
 
   it("Should not be able to authenticate with wrong email", async () => {
-    const usersRepository = new InMemoryUsersRepository();
-
-    const sut = new AuthenticateUseCase(usersRepository);
-
     await expect(() =>
       sut.execute({
         password: "1234",
@@ -41,10 +40,6 @@ describe("Authenticate use cases", () => {
   });
 
   it("Should not be able to authenticate with wrong password", async () => {
-    const usersRepository = new InMemoryUsersRepository();
-
-    const sut = new AuthenticateUseCase(usersRepository);
-
     await usersRepository.create({
       name: "Lucas",
       password_hash: await hash("1234", 5),
