@@ -1,10 +1,9 @@
-import { expect, it, describe } from "vitest";
+import { expect, it, describe, beforeEach } from "vitest";
 import { RegisterUseCase } from "./register";
 
 import { compare } from "bcryptjs";
 import { InMemoryUsersRepository } from "@repositories/in-memory/in-memory-users-repository";
 import { UserAlreadyExistsError } from "./errors/user-already-exists-error";
-import { beforeEach } from "node:test";
 
 // unit test: should not reach other components of the application, should not touch a db
 let usersRepository: InMemoryUsersRepository;
